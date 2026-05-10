@@ -1,5 +1,6 @@
 ﻿// Splendor.cpp : Defines the entry point for the application.
 //
+#include "utils.h"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -7,8 +8,8 @@
 #include "Game.h"
 #include "Splendor.h"
 #include "raylib.h"
-#include "utils.h"
-
+#include "Card.h"
+#include "render.h"
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -23,8 +24,12 @@ int main(void)
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 	Game game = Game(2);
-	std::cout << game.cards[1].size() << std::endl;
-
+	std::string s = game.cards[0][15];    
+    std::cout << s << std::endl;
+    std::vector<int> vect = { 1, 2, 3, 4 };
+	shuffle_list(game.cards[0]);
+    s = game.cards[0][15];
+    std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -42,6 +47,8 @@ int main(void)
         ClearBackground(RAYWHITE);
 
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+		int coord[2] = {60, 80};
+        render_card_at_coordinate(game.cards[0][15], coord);
 
         EndDrawing();
         //----------------------------------------------------------------------------------

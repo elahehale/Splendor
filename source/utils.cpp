@@ -1,8 +1,10 @@
+#include "utils.h"
 #include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+
 
 std::vector<std::vector<std::string>> readCSV(const std::string& filename) {
     std::vector<std::vector<std::string>> data;
@@ -29,3 +31,5 @@ std::vector<std::vector<std::string>> readCSV(const std::string& filename) {
     file.close();
     return data;
 }
+
+

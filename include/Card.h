@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-
+#include <string>
 enum Jem {
 	White = 0,
 	Red, 
@@ -31,12 +31,12 @@ enum Level {
 class Card {
 public:
 	int score;
-	int cost[4];
+	int cost[5];
 	Jem type;
 	Level level;
-	Card(int score, int cost[4], Jem type, Level level) {
+	Card(int score, int cost[5], Jem type, Level level) {
 		this->score = score;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			this->cost[i] = cost[i];
 		}
 		if (type==Yellow) {
@@ -45,4 +45,8 @@ public:
 		this->type = type;
 		this->level = level;
 	}
+	operator std::string() const { 
+		return std::to_string(score) + " " + std::to_string(type) + " " + std::to_string(level) + " " + std::to_string(cost[0]) + " " + std::to_string(cost[1]) + " " + std::to_string(cost[2]) + " " + std::to_string(cost[3]) ;
+	}
+
 };
