@@ -17,8 +17,8 @@
 int main(void)
 {
     // initialization of the game
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1000;
+    const int screenHeight = 800;
     int turn = 0;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
@@ -35,13 +35,21 @@ int main(void)
     
 	game.initialize_players({ "Alice", "Bob" });
 	std::cout << game.players[0].name << std::endl;
-	std::string player_state = game.players[0];
-	std::cout << player_state << std::endl;
+	Player& player = game.players[0];
+    std::string text = player; // OK	
+    std::cout << text << std::endl;
+
+	bool buy_result = game.buy_card(game.players[0], game.visible_cards[0][0], 0);
+	std::cout << "buy result: " << buy_result << std::endl;
+	text = player; // OK	
+    std::cout << text << std::endl;
+	Rectangle card_boxes[12];
     //s = game.cards[0][15];
     //std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
+    int hover_card_index = -1;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -54,10 +62,10 @@ int main(void)
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-
+        render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index);
+        hover_card_index = return_hovered_card_index(card_boxes);
+		std::cout << "hover card index: " << hover_card_index << std::endl;
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-		int coord[2] = {60, 80};
-        render_card_at_coordinate(game.cards[0][15], coord);
 
         EndDrawing();
         //----------------------------------------------------------------------------------

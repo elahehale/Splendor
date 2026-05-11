@@ -8,6 +8,7 @@ public:
 	auto initialize_cards();
 	void initialize_visible_cards();
 	void initialize_players(std::vector<std::string> names);
+	bool buy_card(Player& player, Card card, int card_index);
 	int players_num;
 	std::vector<Player> players;
 	std::vector<std::vector<Card>> cards;

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <iostream>
 void Player::spend_to_buy(Card card)
 {
 	for (int i = 0; i < 5; i++) {
@@ -13,6 +13,8 @@ void Player::add_card(Card card)
 	score += card.score;
 	card_counts[card.type]++;
 }
+
+
 
 std::string Player::get_player_state_text() const
 {
@@ -48,8 +50,22 @@ bool Player::buy_card(Card card)
 		text += "Not enough Black!";
 		return false;
 	}
+	std::cout << "can buy the card!" << std::endl;
 	spend_to_buy(card);
 	add_card(card);
 	text += "Card bought successfully!";
+	return true;
+}
+
+bool Player::take_tokens(int tokens_to_take[5])
+{
+	if (tokens[0] + tokens[1] + tokens[2] + tokens[3] + tokens[4] + tokens_to_take[0] + tokens_to_take[1] + tokens_to_take[2] + tokens_to_take[3] + tokens_to_take[4] > 10) {
+		return false;
+	}
+	for (int i = 0; i < 5; i++) {
+		if (tokens_to_take[i] > 0) {
+			tokens[i] += tokens_to_take[i];
+		}
+	}
 	return true;
 }
