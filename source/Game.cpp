@@ -64,6 +64,24 @@ bool Game::buy_card(Player& player, Card card, int card_index)
 	}
 	return false;
 }
+bool Game::give_tokens(Player& player, int tokens_to_give[5])
+{
+	for (int i = 0; i < 5; i++) {
+		if (tokens_to_give[i] > tokens[i]) {
+			return false;
+		}
+		if (tokens_to_give[i] == 2 && tokens[i] < 4) {
+			return false;
+		}
+	}
+	if (player.take_tokens(tokens_to_give)) {
+		for (int i = 0; i < 5; i++) {
+			tokens[i] -= tokens_to_give[i];
+		}
+		return true;
+	}
+	return false;
+}
 void Game::initialize_tokens() {
     tokens[0] = 4;
     tokens[1] = 4;

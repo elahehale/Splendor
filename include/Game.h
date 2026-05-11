@@ -10,6 +10,7 @@ public:
 	void initialize_players(std::vector<std::string> names);
 	void initialize_tokens();
 	bool buy_card(Player& player, Card card, int card_index);
+	bool give_tokens(Player& player, int tokens_to_give[5]);
 	int players_num;
 	std::vector<Player> players;
 	std::vector<std::vector<Card>> cards;
