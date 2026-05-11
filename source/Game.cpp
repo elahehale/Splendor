@@ -64,9 +64,19 @@ bool Game::buy_card(Player& player, Card card, int card_index)
 	}
 	return false;
 }
+void Game::initialize_tokens() {
+    tokens[0] = 4;
+    tokens[1] = 4;
+    tokens[2] = 4;
+    tokens[3] = 4;
+    tokens[4] = 4;
+	tokens[5] = 5; // yellow token
+}
 Game::Game(int num)
 {
 	players_num = num;
 	cards = initialize_cards();
+	initialize_tokens();
 }
+
 

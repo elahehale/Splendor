@@ -15,6 +15,8 @@ Color get_color_from_jem(auto type) {
 		return BLUE;
 	case Jem::Black:
 		return DARKBROWN;
+	case Jem::Yellow:	
+		return GOLD;
 	default:
 	    return GRAY;
 	}
@@ -26,6 +28,29 @@ int font_size = 20;
 int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
 int rect_height = int (rect_width * 1.2);
 
+
+void render_tokens(int tokens[6])
+{
+	int x = 20;
+	int y = 3 * (rect_height + int(0.4 * rect_width)) + 80;
+	int temp_y = y;
+	for (int i = 0;i < 6; i++) {
+		if (tokens[i] > 0) {
+			for (int tok_num = 0; tok_num < tokens[i]; tok_num++) {
+				Rectangle token_rect = { x, temp_y, 4 * circle_r,  circle_r };
+				DrawRectangleRounded(token_rect, 0.5, 10, get_color_from_jem(i));
+				temp_y +=  circle_r + space_size;
+			}
+		}
+		else {
+			Rectangle token_rect = { x, y, 2 * circle_r,  circle_r };
+			DrawRectangleRounded(token_rect, 0.5, 10, GRAY);
+		}
+		x += 4 * circle_r + space_size;
+		temp_y = y;
+
+	}
+}
 
 int return_hovered_card_index(Rectangle card_boxes[12])
 {

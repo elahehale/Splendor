@@ -65,6 +65,7 @@ int main(void)
         render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index);
         hover_card_index = return_hovered_card_index(card_boxes);
 		std::cout << "hover card index: " << hover_card_index << std::endl;
+        render_tokens(game.tokens);
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
         EndDrawing();
