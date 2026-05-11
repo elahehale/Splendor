@@ -3,11 +3,15 @@
 #include "Player.h"
 class Game {
 public:	
+
 	Game(int num);
 	auto initialize_cards();
+	void initialize_visible_cards();
 	int players_num;
 	std::vector<Player> players;
 	std::vector<std::vector<Card>> cards;
+	std::vector<std::vector<Card>> visible_cards;
+
 
 };
 

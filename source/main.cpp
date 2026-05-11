@@ -16,7 +16,7 @@
 
 int main(void)
 {
- 
+    // initialization of the game
     const int screenWidth = 800;
     const int screenHeight = 450;
 
@@ -24,12 +24,16 @@ int main(void)
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 	Game game = Game(2);
-	std::string s = game.cards[0][15];    
-    std::cout << s << std::endl;
-    std::vector<int> vect = { 1, 2, 3, 4 };
-	shuffle_list(game.cards[0]);
-    s = game.cards[0][15];
-    std::cout << s << std::endl;
+    shuffle_list(game.cards[0]);
+    shuffle_list(game.cards[1]);
+    shuffle_list(game.cards[2]);
+    std::cout << game.cards[0].size() << std::endl;
+
+    game.initialize_visible_cards();
+	std::cout << game.cards[0].size() << std::endl;
+	std::cout << game.visible_cards[0].size() << std::endl;
+    //s = game.cards[0][15];
+    //std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------
 
     // Main game loop

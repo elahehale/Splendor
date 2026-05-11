@@ -20,6 +20,26 @@ auto Game::initialize_cards() {
 	}
 	return cards;
 }
+void Game::initialize_visible_cards()
+{
+	visible_cards.push_back(std::vector<Card>()); // level 0
+	visible_cards.push_back(std::vector<Card>()); // level 1
+	visible_cards.push_back(std::vector<Card>()); // level 2
+	visible_cards[0].push_back(cards[0][0]);
+	visible_cards[0].push_back(cards[0][1]);
+	visible_cards[0].push_back(cards[0][2]);
+	visible_cards[1].push_back(cards[1][0]);
+	visible_cards[1].push_back(cards[1][1]);
+	visible_cards[1].push_back(cards[1][2]);
+	visible_cards[2].push_back(cards[2][0]);
+	visible_cards[2].push_back(cards[2][1]);
+	visible_cards[2].push_back(cards[2][2]);
+
+	cards[0].erase(cards[0].begin(), cards[0].begin() + 3);
+	cards[1].erase(cards[1].begin(), cards[1].begin() + 3);
+	cards[2].erase(cards[2].begin(), cards[2].begin() + 3);
+
+}
 Game::Game(int num)
 {
 	players_num = num;
