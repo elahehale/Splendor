@@ -19,7 +19,7 @@ int main(void)
     // initialization of the game
     const int screenWidth = 800;
     const int screenHeight = 450;
-
+    int turn = 0;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -32,6 +32,11 @@ int main(void)
     game.initialize_visible_cards();
 	std::cout << game.cards[0].size() << std::endl;
 	std::cout << game.visible_cards[0].size() << std::endl;
+    
+	game.initialize_players({ "Alice", "Bob" });
+	std::cout << game.players[0].name << std::endl;
+	std::string player_state = game.players[0];
+	std::cout << player_state << std::endl;
     //s = game.cards[0][15];
     //std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------

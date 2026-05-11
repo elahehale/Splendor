@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <utils.h>
-
+#include <fstream>
+#include <string>
 auto Game::initialize_cards() {
 	auto data = readCSV(ASSETS_PATH"Splendor_Cards.csv");
 
@@ -38,6 +39,13 @@ void Game::initialize_visible_cards()
 	cards[0].erase(cards[0].begin(), cards[0].begin() + 3);
 	cards[1].erase(cards[1].begin(), cards[1].begin() + 3);
 	cards[2].erase(cards[2].begin(), cards[2].begin() + 3);
+
+}
+void Game::initialize_players(std::vector<std::string> names)
+{
+	for (int i = 0; i < players_num; i++) {
+		players.push_back(Player(names[i]));
+	}
 
 }
 Game::Game(int num)
