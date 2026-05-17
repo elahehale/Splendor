@@ -18,9 +18,12 @@ int main(void)
 {
     // initialization of the game
     const int screenWidth = 1500;
-    const int screenHeight = 800;
+    const int screenHeight = 1000;
     int turn = 0;
+
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    //SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED);
+    //InitWindow(GetScreenWidth(), GetScreenHeight(), "Borderless fullscreen");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 	Game game = Game(2);
@@ -34,16 +37,17 @@ int main(void)
 	std::cout << game.visible_cards[0].size() << std::endl;
     
 	game.initialize_players({ "Alice", "Bob" });
-	std::cout << game.players[0].name << std::endl;
-	Player& player = game.players[0];
-    std::string text = player; // OK	
-    std::cout << text << std::endl;
+	//std::cout << game.players[0].name << std::endl;
+	//Player& player = game.players[0];
+ //   std::string text = player; // OK	
+ //   std::cout << text << std::endl;
 
-	bool buy_result = game.buy_card(game.players[0], game.visible_cards[0][0], 0);
-	std::cout << "buy result: " << buy_result << std::endl;
-	text = player; // OK	
-    std::cout << text << std::endl;
+	//bool buy_result = game.buy_card(game.players[0], game.visible_cards[0][0], 0);
+	//std::cout << "buy result: " << buy_result << std::endl;
+	//text = player; // OK	
+ //   std::cout << text << std::endl;
 	Rectangle card_boxes[12];
+	Rectangle token_selector_boxes[6];
     //s = game.cards[0][15];
     //std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------
@@ -51,7 +55,7 @@ int main(void)
     // Main game loop
     int hover_card_index = -1;
 	int clicked_card_index = -1;
-    bool card_clicked = false;
+	int prev_hover_card_index = -1;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -67,24 +71,35 @@ int main(void)
         render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
         render_turn(game.players[turn]);
         hover_card_index = return_hovered_card_index(card_boxes);
+        if (hover_card_index != -1) {
+            game.visible_cards[hover_card_index / 4][hover_card_index % 4].is_hover_animating = true;
+        }
+        if (prev_hover_card_index != -1 && prev_hover_card_index != hover_card_index) {
+            game.visible_cards[prev_hover_card_index / 4][prev_hover_card_index % 4].is_hover_animating = false;
+		}
         return_clicked_card_index(card_boxes, clicked_card_index);
-
+        render_tokens(game.tokens);
+		render_token_selector_btns(token_selector_boxes);
+        
         if (clicked_card_index!= -1) {
             render_buy_or_reserve_card(clicked_card_index, game.visible_cards);
-
         }
         if (IsKeyPressed(KEY_Y)) {
             std::cout << "Y is pressed!" << std::endl;
             int row = clicked_card_index / 4;
             int col = clicked_card_index % 4;
-            game.buy_card(game.players[turn], game.visible_cards[row][col], col);
-			turn = (turn + 1) % game.players_num;
-			clicked_card_index = -1;
+			bool buy_result = game.buy_card(game.players[turn], game.visible_cards[row][col], col);
+			std::cout << "buy result: " << buy_result << std::endl;
+            if  (buy_result)
+            {
+                turn = (turn + 1) % game.players_num;
+                clicked_card_index = -1;
+            }
         }
+		prev_hover_card_index = hover_card_index;
 
         //std::cout << "hover card index: " << hover_card_index << std::endl;
-        std::cout << "clicked card index: " << clicked_card_index << std::endl;
-        render_tokens(game.tokens);
+        //std::cout << "clicked card index: " << clicked_card_index << std::endl;
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

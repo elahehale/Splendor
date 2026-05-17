@@ -40,7 +40,7 @@ void render_turn(Player player)
 void render_tokens(int tokens[6])
 {
 	int x = 20;
-	int y = 3 * (rect_height + int(0.4 * rect_width)) + 80;
+	int y = 3 * (rect_height + int(0.4 * rect_width)) + 120;
 	int temp_y = y;
 	for (int i = 0;i < 6; i++) {
 		if (tokens[i] > 0) {
@@ -56,14 +56,25 @@ void render_tokens(int tokens[6])
 		}
 		x += 4 * circle_r + space_size;
 		temp_y = y;
-
 	}
 }
+void render_token_selector_btns(Rectangle seletors[6]) {
 
+	int x = 20;
+	int y = 3 * (rect_height + int(0.4 * rect_width)) + 60;
+	int temp_y = y;
+	for (int i = 0;i < 6; i++) {
+		Rectangle token_rect = { x, y, 4 * circle_r,  4*circle_r };
+		DrawRectangle(x,y, 4*circle_r, 4*circle_r, get_color_from_jem(i));
+		x += 4 * circle_r + space_size;
+		seletors[i] = token_rect;
+	}
+}
 int return_hovered_card_index(Rectangle card_boxes[12])
 {
 	for (int i = 0; i < 12; i++) {
 		if (CheckCollisionPointRec(GetMousePosition(), card_boxes[i])) {
+
 			return i;
 		}
 	}
@@ -86,14 +97,35 @@ void render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visibl
 	DrawText((text).c_str(), 600, 50, 20, RED);
 }
 
-Rectangle render_card_at_coordinate(Card card, int coord[2], bool selected) {
+Rectangle render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 	int coord_x = coord[0];
 	int coord_y = coord[1];
 	Color color = get_color_from_jem(card.type);
 
+
+	int text_width = 0;
+	std::cout << "animating" << card.current_step << std::endl;
+
+	if(card.is_hover_animating){
+
+			std::cout << "animating step" << card.current_step << std::endl;
+			coord_y -= int(card.current_step * 10 / card.steps);
+			if (card.current_step < card.steps) {
+
+				card.current_step = card.current_step + 1;
+			}
+			std::cout << "animating step next" << card.current_step << std::endl;
+
+	}
+	else {
+		card.is_hover_animating = false;
+		if (card.current_step != 0) {
+			coord_y -= int(card.current_step * 10 / card.steps);
+			card.current_step -= 1;
+		}
+	}
 	int y = (coord_y + rect_height + 0.2 * rect_width);
 	int x = coord_x + start_size + circle_r;
-	int text_width = 0;
 	Rectangle card_rect = { coord_x, coord_y, rect_width, rect_height + int(0.4 * rect_width) };
 	if (selected) {
 		DrawRectangle(coord_x - 5, coord_y - 5, rect_width + 10, rect_height + int(0.4 * rect_width) + 10, BLACK);
@@ -120,7 +152,7 @@ Rectangle render_card_at_coordinate(Card card, int coord[2], bool selected) {
 	return card_rect;
 }
 
-void render_all_visible_cards(std::vector<std::vector<Card>> visible_cards, Rectangle card_boxes[12], int hovered_index, int selected_index)
+void render_all_visible_cards(std::vector<std::vector<Card>> &visible_cards, Rectangle card_boxes[12], int hovered_index, int selected_index)
 {
 	int x = 0;
 	int y = 0;
@@ -135,10 +167,10 @@ void render_all_visible_cards(std::vector<std::vector<Card>> visible_cards, Rect
 			is_selected = (index == selected_index);
 			x = rect_width * col + 20 * col + 10;
 			y = (int(0.4 * rect_width) + rect_height) * row + 20 * row + 10;
-			if (is_hovered) {
-				x -= 5;
-				y -= 5;
-			}
+			//if (is_hovered) {
+			//	x -= 5;
+			//	y -= 5;
+			//}
 			card_boxes[index] = render_card_at_coordinate(visible_cards[row][col], new int[2] { x,y }, is_selected);
 		} 
 	}
