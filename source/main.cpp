@@ -17,7 +17,7 @@
 int main(void)
 {
     // initialization of the game
-    const int screenWidth = 1000;
+    const int screenWidth = 1500;
     const int screenHeight = 800;
     int turn = 0;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
@@ -50,6 +50,8 @@ int main(void)
 
     // Main game loop
     int hover_card_index = -1;
+	int clicked_card_index = -1;
+    bool card_clicked = false;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -62,12 +64,27 @@ int main(void)
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index);
+        render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
+        render_turn(game.players[turn]);
         hover_card_index = return_hovered_card_index(card_boxes);
-		std::cout << "hover card index: " << hover_card_index << std::endl;
-        render_tokens(game.tokens);
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        return_clicked_card_index(card_boxes, clicked_card_index);
 
+        if (clicked_card_index!= -1) {
+            render_buy_or_reserve_card(clicked_card_index, game.visible_cards);
+
+        }
+        if (IsKeyPressed(KEY_Y)) {
+            std::cout << "Y is pressed!" << std::endl;
+            int row = clicked_card_index / 4;
+            int col = clicked_card_index % 4;
+            game.buy_card(game.players[turn], game.visible_cards[row][col], col);
+			turn = (turn + 1) % game.players_num;
+			clicked_card_index = -1;
+        }
+
+        //std::cout << "hover card index: " << hover_card_index << std::endl;
+        std::cout << "clicked card index: " << clicked_card_index << std::endl;
+        render_tokens(game.tokens);
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

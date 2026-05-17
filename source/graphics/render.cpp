@@ -3,6 +3,8 @@
 #include  "raylib.h"
 #include <vector>
 #include <iostream>
+#include <Game.h>
+#include <string>
 Color get_color_from_jem(auto type) {
 	switch (type) {
 	case Jem::White:
@@ -28,6 +30,12 @@ int font_size = 20;
 int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
 int rect_height = int (rect_width * 1.2);
 
+
+void render_turn(Player player)
+{
+	std::string text = player.name + "'s Turn";
+	DrawText( (text).c_str() , 600, 10, 30, RED);
+}
 
 void render_tokens(int tokens[6])
 {
@@ -61,8 +69,24 @@ int return_hovered_card_index(Rectangle card_boxes[12])
 	}
 	return -1;
 }
+void return_clicked_card_index(Rectangle card_boxes[12], int &is_clicked)
+{
+	for (int i = 0; i < 12; i++) {
+		if (CheckCollisionPointRec(GetMousePosition(), card_boxes[i]) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			is_clicked = i;
+		}
+	}
+}
 
-Rectangle render_card_at_coordinate(Card card, int coord[2]) {
+void render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visible_cards)
+{
+	int row = index / 4;
+	int col = index % 4;
+	std::string text = "Do you want to buy or reserve this card? (Y/N)";
+	DrawText((text).c_str(), 600, 50, 20, RED);
+}
+
+Rectangle render_card_at_coordinate(Card card, int coord[2], bool selected) {
 	int coord_x = coord[0];
 	int coord_y = coord[1];
 	Color color = get_color_from_jem(card.type);
@@ -71,6 +95,9 @@ Rectangle render_card_at_coordinate(Card card, int coord[2]) {
 	int x = coord_x + start_size + circle_r;
 	int text_width = 0;
 	Rectangle card_rect = { coord_x, coord_y, rect_width, rect_height + int(0.4 * rect_width) };
+	if (selected) {
+		DrawRectangle(coord_x - 5, coord_y - 5, rect_width + 10, rect_height + int(0.4 * rect_width) + 10, BLACK);
+	}
 	DrawRectangle(coord_x, coord_y, rect_width, rect_height, color);
 	DrawRectangle(coord_x, coord_y + rect_height, rect_width, 0.4 * rect_width, GRAY);
 	std::string const score_text = std::to_string(card.score);
@@ -93,24 +120,26 @@ Rectangle render_card_at_coordinate(Card card, int coord[2]) {
 	return card_rect;
 }
 
-void render_all_visible_cards(std::vector<std::vector<Card>> visible_cards, Rectangle card_boxes[12], int hovered_index)
+void render_all_visible_cards(std::vector<std::vector<Card>> visible_cards, Rectangle card_boxes[12], int hovered_index, int selected_index)
 {
 	int x = 0;
 	int y = 0;
 	int index = 0;
 	bool is_hovered = false;
+	bool is_selected = false;
 	for (int row = 0; row < 3; row++) {
 		for (int col = 0; col < 4; col++)
 		{
 			index = 4 * row + col;
 			is_hovered = (index == hovered_index);
+			is_selected = (index == selected_index);
 			x = rect_width * col + 20 * col + 10;
 			y = (int(0.4 * rect_width) + rect_height) * row + 20 * row + 10;
 			if (is_hovered) {
 				x -= 5;
 				y -= 5;
 			}
-			card_boxes[index] = render_card_at_coordinate(visible_cards[row][col], new int[2] { x,y });
+			card_boxes[index] = render_card_at_coordinate(visible_cards[row][col], new int[2] { x,y }, is_selected);
 		} 
 	}
 }
