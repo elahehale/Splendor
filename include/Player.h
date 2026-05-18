@@ -27,7 +27,7 @@ public:
 		this->name = name;
 		this->score = 0;
 		for (int i = 0; i < 5; i++) {
-			this->tokens[i] = 2;
+			this->tokens[i] = 0;
 			this->card_counts[i] = 0;
 		}
 	}

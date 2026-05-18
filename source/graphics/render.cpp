@@ -37,7 +37,7 @@ void render_turn(Player player)
 	DrawText( (text).c_str() , 600, 10, 30, RED);
 }
 
-void render_tokens(int tokens[6])
+void render_tokens(int tokens[6], TokenBoxState token_boxes[25])
 {
 	int x = 20;
 	int y = 3 * (rect_height + int(0.4 * rect_width)) + 120;
@@ -45,9 +45,20 @@ void render_tokens(int tokens[6])
 	for (int i = 0;i < 6; i++) {
 		if (tokens[i] > 0) {
 			for (int tok_num = 0; tok_num < tokens[i]; tok_num++) {
+				if (token_boxes[i*4 + tok_num].is_clicked){
+					Rectangle shadow_token_rect = { x -2 , temp_y - 2, 4 * circle_r + 4,  circle_r + 4 };
+					DrawRectangleRounded(shadow_token_rect, 0.5, 10, GRAY);
+				}
 				Rectangle token_rect = { x, temp_y, 4 * circle_r,  circle_r };
 				DrawRectangleRounded(token_rect, 0.5, 10, get_color_from_jem(i));
 				temp_y +=  circle_r + space_size;
+				token_boxes[i * 4 + tok_num].box = token_rect;
+				token_boxes[i * 4 + tok_num].enabled = true;
+			}
+			for (int tok_num = tokens[i]; tok_num < 4; tok_num++) {
+				Rectangle token_rect = { 0,0,0,0 };
+				token_boxes[i * 4 + tok_num].box = token_rect;
+				token_boxes[i * 4 + tok_num].enabled = false;
 			}
 		}
 		else {
@@ -88,6 +99,23 @@ void return_clicked_card_index(Rectangle card_boxes[12], int &is_clicked)
 		}
 	}
 }
+void return_clicked_token_index(TokenBoxState token_boxes[25], int &clicked)
+{
+	for (int i = 0; i < 25; i++) {
+		if (CheckCollisionPointRec(GetMousePosition(), token_boxes[i].box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			if (!token_boxes[i].enabled) {
+				return;
+			}
+			token_boxes[i].is_clicked = !token_boxes[i].is_clicked;
+			if (token_boxes[i].is_clicked) {
+				clicked++;
+			}
+			else {
+				clicked = clicked - 1;
+			}
+		}
+	}
+}
 
 void render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visible_cards)
 {
@@ -96,7 +124,11 @@ void render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visibl
 	std::string text = "Do you want to buy or reserve this card? (Y/N)";
 	DrawText((text).c_str(), 600, 50, 20, RED);
 }
-
+void render_gather_tokens()
+{
+	std::string text = "Do you want to gather selected tokens? (G/N)";
+	DrawText((text).c_str(), 600, 100, 20, BLUE);
+}
 Rectangle render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 	int coord_x = coord[0];
 	int coord_y = coord[1];
@@ -104,17 +136,17 @@ Rectangle render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 
 
 	int text_width = 0;
-	std::cout << "animating" << card.current_step << std::endl;
+	//std::cout << "animating" << card.current_step << std::endl;
 
 	if(card.is_hover_animating){
 
-			std::cout << "animating step" << card.current_step << std::endl;
+			//std::cout << "animating step" << card.current_step << std::endl;
 			coord_y -= int(card.current_step * 10 / card.steps);
 			if (card.current_step < card.steps) {
 
 				card.current_step = card.current_step + 1;
 			}
-			std::cout << "animating step next" << card.current_step << std::endl;
+			//std::cout << "animating step next" << card.current_step << std::endl;
 
 	}
 	else {

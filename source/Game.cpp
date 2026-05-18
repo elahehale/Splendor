@@ -68,9 +68,11 @@ bool Game::give_tokens(Player& player, int tokens_to_give[5])
 {
 	for (int i = 0; i < 5; i++) {
 		if (tokens_to_give[i] > tokens[i]) {
+			std::cout << "Not enough tokens of type " << i << " in the game." << std::endl;
 			return false;
 		}
 		if (tokens_to_give[i] == 2 && tokens[i] < 4) {
+			std::cout << "Cannot take 2 tokens of type " << i << " because there are less than 4 tokens of that type in the game." << std::endl;
 			return false;
 		}
 	}

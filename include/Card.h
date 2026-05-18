@@ -28,7 +28,11 @@ enum Level {
 	Hard
 };
 
-
+struct TokenBoxState {
+	Rectangle box;
+	bool enabled;
+	bool is_clicked;
+};
 
 class Card {
 public:
