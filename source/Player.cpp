@@ -1,9 +1,11 @@
 #include "Player.h"
 #include <iostream>
-void Player::spend_to_buy(Card card)
+void Player::spend_to_buy(Card card, int payment[6])
 {
 	for (int i = 0; i < 5; i++) {
-		tokens[i] += std::min(0, card_counts[i] - card.cost[i]);
+
+		payment[i] = std::max(0, card.cost[i] - card_counts[i]);
+		tokens[i] -= payment[i];
 	}
 }
 
@@ -27,7 +29,7 @@ std::string Player::get_player_state_text() const
 	
 }
 
-bool Player::buy_card(Card card)
+bool Player::buy_card(Card card, int payment[6])
 {
 	std::string text;
 	if (card.cost[0] > tokens[0] + card_counts[0]) {
@@ -51,7 +53,7 @@ bool Player::buy_card(Card card)
 		return false;
 	}
 	std::cout << "can buy the card!" << std::endl;
-	spend_to_buy(card);
+	spend_to_buy(card, payment);
 	add_card(card);
 	text += "Card bought successfully!";
 	return true;

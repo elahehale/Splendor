@@ -53,12 +53,16 @@ void Game::initialize_players(std::vector<std::string> names)
 }
 bool Game::buy_card(Player& player, Card card, int card_index)
 {
-	if (player.buy_card(card)) {
+	int payment[6] = { 0, 0, 0, 0, 0, 0 };
+	if (player.buy_card(card, payment)) {
 		int level = card.level;
 		visible_cards[level].erase(visible_cards[level].begin() + card_index);
 		if (cards[level].size() > 0) {
 			visible_cards[level].push_back(cards[level][0]);
 			cards[level].erase(cards[level].begin());
+		}
+		for (int i = 0; i < 5; i++) {
+			tokens[i] += payment[i];
 		}
 		return true;
 	}

@@ -6,7 +6,7 @@
 
 class Player {
 private:
-	void spend_to_buy(Card card);
+	void spend_to_buy(Card card, int payment[6]);
 	void add_card(Card card);
 	std::string get_player_state_text() const;
 
@@ -17,7 +17,7 @@ public:
 	std::vector<Card> cards;
 	std::vector<Card> reserved_cards;
 	std::string name;
-	bool buy_card(Card card);
+	bool buy_card(Card card, int payment[6]);
 	bool take_tokens(int tokens_to_take[5]);
 	operator std::string() const {
 		std::string text = get_player_state_text();

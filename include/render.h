@@ -5,23 +5,6 @@
 #include "Player.h"
 
 
-struct CardHoverAnimation {
-	float duration;
-	bool is_animating;
-	int steps;
-	float step_size;
-	int current_step;
-
-	CardHoverAnimation() {
-		duration = 0.2f; // Duration of the animation in seconds
-		is_animating = false;
-		steps = duration / GetFrameTime(); // Number of steps in the animation
-		step_size = GetFrameTime(); // Size of each step in pixels
-		current_step = 0;
-	}
-
-};
-
 void render_turn(Player player);
 void render_tokens(int tokens[6], TokenBoxState token_boxes[25]);
 void render_token_selector_btns(Rectangle seletors[6]);
