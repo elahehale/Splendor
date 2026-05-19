@@ -10,6 +10,7 @@
 #include "raylib.h"
 #include "Card.h"
 #include "render.h"
+#include "Message.h"
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -17,7 +18,7 @@
 int main(void)
 {
     // initialization of the game
-    const int screenWidth = 1500;
+    const int screenWidth = 1700;
     const int screenHeight = 1000;
     int turn = 0;
 
@@ -78,10 +79,10 @@ int main(void)
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-
         ClearBackground(RAYWHITE);
         render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
         render_turn(game.players[turn]);
+		game.message_handler.update();
         hover_card_index = return_hovered_card_index(card_boxes);
         if (hover_card_index != -1) {
             game.visible_cards[hover_card_index / 4][hover_card_index % 4].is_hover_animating = true;
@@ -146,7 +147,7 @@ int main(void)
             }
         }
 		prev_hover_card_index = hover_card_index;
-
+		game.message_handler.show();
         //std::cout << "hover card index: " << hover_card_index << std::endl;
         //std::cout << "clicked card index: " << clicked_card_index << std::endl;
         EndDrawing();

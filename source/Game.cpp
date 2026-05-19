@@ -2,6 +2,7 @@
 #include <utils.h>
 #include <fstream>
 #include <string>
+#include "Message.h"
 auto Game::initialize_cards() {
 	auto data = readCSV(ASSETS_PATH"Splendor_Cards.csv");
 
@@ -72,10 +73,12 @@ bool Game::give_tokens(Player& player, int tokens_to_give[5])
 {
 	for (int i = 0; i < 5; i++) {
 		if (tokens_to_give[i] > tokens[i]) {
+			message_handler.set_message(TextType::Warning, "Not enough tokens of type " + std::to_string(i) + " in the game.");
 			std::cout << "Not enough tokens of type " << i << " in the game." << std::endl;
 			return false;
 		}
 		if (tokens_to_give[i] == 2 && tokens[i] < 4) {
+			message_handler.set_message(TextType::Warning, "Cannot take 2 tokens of type " + std::to_string(i) + " because there are less than 4 tokens of that type in the game.");
 			std::cout << "Cannot take 2 tokens of type " << i << " because there are less than 4 tokens of that type in the game." << std::endl;
 			return false;
 		}
@@ -101,6 +104,7 @@ Game::Game(int num)
 	players_num = num;
 	cards = initialize_cards();
 	initialize_tokens();
+	message_handler = MessageHandler();
 }
 
 

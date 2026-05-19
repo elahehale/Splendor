@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Message.h"
 class Game {
 public:	
 
@@ -16,6 +17,7 @@ public:
 	std::vector<std::vector<Card>> cards;
 	std::vector<std::vector<Card>> visible_cards;
 	int tokens[6];
+	MessageHandler message_handler;
 
 
 

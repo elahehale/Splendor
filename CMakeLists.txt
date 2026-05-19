@@ -17,7 +17,7 @@ FetchContent_MakeAvailable(raylib)
 
 add_executable(Splendor
     source/main.cpp
- "include/Card.h" "include/Player.h" "include/Game.h" "source/utils.cpp" "include/utils.h" "source/Game.cpp" "source/graphics/render.cpp" "include/render.h" "source/Player.cpp")
+ "include/Card.h" "include/Player.h" "include/Game.h" "source/utils.cpp" "include/utils.h" "source/Game.cpp" "source/graphics/render.cpp" "include/render.h" "source/Player.cpp" "include/Message.h")
 
 
 target_include_directories(Splendor PRIVATE include)
