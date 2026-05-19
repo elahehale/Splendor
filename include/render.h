@@ -5,6 +5,7 @@
 #include "Player.h"
 
 
+void render_players_state(std::vector<Player> players);
 void render_turn(Player player);
 void render_tokens(int tokens[6], TokenBoxState token_boxes[25]);
 void render_token_selector_btns(Rectangle seletors[6]);

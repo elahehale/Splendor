@@ -31,6 +31,17 @@ int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
 int rect_height = int (rect_width * 1.2);
 
 
+void render_players_state(std::vector<Player> players)
+{
+	int x = 600;
+	int y = 150;
+	for (const auto& player : players) {
+		std::string text = static_cast<std::string>(player);
+		DrawText((text).c_str(), x, y, font_size, BLACK);
+		y += font_size * 6;
+	}
+}
+
 void render_turn(Player player)
 {
 	std::string text = player.name + "'s Turn";

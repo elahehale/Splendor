@@ -93,6 +93,7 @@ int main(void)
         render_token_selector_btns(token_selector_boxes);
         return_clicked_token_index( token_boxes,  token_clicked);
         render_tokens(game.tokens, token_boxes);
+		render_players_state(game.players);
         if (token_clicked > 0) {
             render_gather_tokens();
 		}
