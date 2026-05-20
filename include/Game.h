@@ -5,7 +5,7 @@
 class Game {
 public:	
 
-	Game(int num);
+	Game(int num, std::vector<std::string> names);
 	void initialize_cards();
 	void initialize_visible_cards();
 	void initialize_players(std::vector<std::string> names);

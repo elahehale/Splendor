@@ -26,40 +26,16 @@ int main(void)
     //SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED);
     //InitWindow(GetScreenWidth(), GetScreenHeight(), "Borderless fullscreen");
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-	Game game = Game(2);
-    shuffle_list(game.cards[0]);
-    shuffle_list(game.cards[1]);
-    shuffle_list(game.cards[2]);
-    std::cout << game.cards[0].size() << std::endl;
+    SetTargetFPS(60);      // Set our game to run at 60 frames-per-second
 
-    game.initialize_visible_cards();
-	std::cout << game.cards[0].size() << std::endl;
-	std::cout << game.visible_cards[0].size() << std::endl;
-    
-	game.initialize_players({ "Alice", "Bob" });
-	//std::cout << game.players[0].name << std::endl;
-	//Player& player = game.players[0];
- //   std::string text = player; // OK	
- //   std::cout << text << std::endl;
 
-	//bool buy_result = game.buy_card(game.players[0], game.visible_cards[0][0], 0);
-	//std::cout << "buy result: " << buy_result << std::endl;
-	//text = player; // OK	
- //   std::cout << text << std::endl;
+
+	Game game = Game(2, { "Alice", "Bob" });
+
 	Rectangle card_boxes[12];
     Rectangle token_selector_boxes[6];
     TokenBoxState token_boxes[25] = {};
 
-    //std::vector<std::vector<Rectangle>> token_boxes;
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //token_boxes.push_back(std::vector<Rectangle>());
-    //s = game.cards[0][15];
-    //std::cout << s << std::endl;
     //--------------------------------------------------------------------------------------
 
     // Main game loop

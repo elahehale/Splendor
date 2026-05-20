@@ -89,11 +89,20 @@ void Game::initialize_tokens() {
 	}
 	tokens[5] = 5; // yellow token
 }
-Game::Game(int num)
+Game::Game(int num, std::vector<std::string> names)
 {
 	players_num = num;
+	initialize_players(names);
+
 	initialize_cards();
 	initialize_tokens();
+
+	shuffle_list(cards[0]);
+	shuffle_list(cards[1]);
+	shuffle_list(cards[2]);
+
+	initialize_visible_cards();
+
 	message_handler = MessageHandler();
 }
 
