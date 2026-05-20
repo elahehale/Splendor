@@ -3,10 +3,9 @@
 #include <fstream>
 #include <string>
 #include "Message.h"
-auto Game::initialize_cards() {
+void Game::initialize_cards() {
 	auto data = readCSV(ASSETS_PATH"Splendor_Cards.csv");
 
-	std::vector<std::vector<Card>> cards;
 	cards.push_back(std::vector<Card>()); // level 0
 	cards.push_back(std::vector<Card>()); // level 1
 	cards.push_back(std::vector<Card>()); // level 2
@@ -20,25 +19,17 @@ auto Game::initialize_cards() {
 		Card card = Card(score, cost, type, level);
 		cards[static_cast<int>(level)].push_back(card);
 	}
-	return cards;
 }
 void Game::initialize_visible_cards()
 {
 	visible_cards.push_back(std::vector<Card>()); // level 0
 	visible_cards.push_back(std::vector<Card>()); // level 1
 	visible_cards.push_back(std::vector<Card>()); // level 2
-	visible_cards[0].push_back(cards[0][0]);
-	visible_cards[0].push_back(cards[0][1]);
-	visible_cards[0].push_back(cards[0][2]);
-	visible_cards[0].push_back(cards[0][3]);
-	visible_cards[1].push_back(cards[1][0]);
-	visible_cards[1].push_back(cards[1][1]);
-	visible_cards[1].push_back(cards[1][2]);
-	visible_cards[1].push_back(cards[1][3]);
-	visible_cards[2].push_back(cards[2][0]);
-	visible_cards[2].push_back(cards[2][1]);
-	visible_cards[2].push_back(cards[2][2]);
-	visible_cards[2].push_back(cards[2][4]);
+
+	for (int i = 0; i < 12; i++) {
+		std::cout << (int)(i / 4) << " " << i % 4 << std::endl;
+		visible_cards[(int)(i / 4)].push_back(cards[(int)(i / 4)][i % 4]);
+	};
 
 	cards[0].erase(cards[0].begin(), cards[0].begin() + 4);
 	cards[1].erase(cards[1].begin(), cards[1].begin() + 4);
@@ -92,17 +83,16 @@ bool Game::give_tokens(Player& player, int tokens_to_give[5])
 	return false;
 }
 void Game::initialize_tokens() {
-    tokens[0] = 4;
-    tokens[1] = 4;
-    tokens[2] = 4;
-    tokens[3] = 4;
-    tokens[4] = 4;
+	initial_token_number = players_num * 2 - (int)(players_num / 3);
+	for (int i = 0; i < 5; i++) {
+		tokens[i] = initial_token_number;
+	}
 	tokens[5] = 5; // yellow token
 }
 Game::Game(int num)
 {
 	players_num = num;
-	cards = initialize_cards();
+	initialize_cards();
 	initialize_tokens();
 	message_handler = MessageHandler();
 }

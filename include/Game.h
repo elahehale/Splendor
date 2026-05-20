@@ -6,7 +6,7 @@ class Game {
 public:	
 
 	Game(int num);
-	auto initialize_cards();
+	void initialize_cards();
 	void initialize_visible_cards();
 	void initialize_players(std::vector<std::string> names);
 	void initialize_tokens();
@@ -17,6 +17,7 @@ public:
 	std::vector<std::vector<Card>> cards;
 	std::vector<std::vector<Card>> visible_cards;
 	int tokens[6];
+	int initial_token_number;
 	MessageHandler message_handler;
 
 
