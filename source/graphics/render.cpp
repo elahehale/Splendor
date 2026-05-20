@@ -136,13 +136,13 @@ void Renderer::render_buy_or_reserve_card(int index, std::vector<std::vector<Car
 	int row = index / 4;
 	int col = index % 4;
 	std::string text = "Do you want to buy or reserve this card? (Y/N)";
-    message_handler.set_message(TextType::Question, text);
+    //message_handler.set_message(TextType::Question, text);
 	//DrawText((text).c_str(), 600, 50, 20, RED);
 }
 void Renderer::render_gather_tokens()
 {
 	std::string text = "Do you want to gather selected tokens? (G/N)";
-	message_handler.set_message(TextType::Question, text);
+	//message_handler.set_message(TextType::Question, text);
 	//DrawText((text).c_str(), 600, 100, 20, BLUE);
 }
 Rectangle Renderer::render_card_at_coordinate(Card &card, int coord[2], bool selected) {

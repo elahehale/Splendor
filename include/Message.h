@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include  "raylib.h"
-
+#include <iostream>
 enum TextType {
 	Question = 0,
 	Info,
@@ -51,6 +51,7 @@ struct MessageHandler {
 	}
 	void set_message(TextType type, const std::string& content) {
 		current_message = Message(type, content);
+		std::cout << "we are here";
 		active = true;
 	}
 	void update() {

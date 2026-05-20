@@ -59,7 +59,7 @@ int main(void)
         ClearBackground(RAYWHITE);
         renderer.render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
         renderer.render_turn(game.players[turn]);
-        renderer.message_handler.update();
+        game.message_handler.update();
         hover_card_index = renderer.return_hovered_card_index(card_boxes);
         if (hover_card_index != -1) {
             game.visible_cards[hover_card_index / 4][hover_card_index % 4].is_hover_animating = true;
@@ -124,7 +124,8 @@ int main(void)
             }
         }
 		prev_hover_card_index = hover_card_index;
-        renderer.message_handler.show();
+        game.message_handler.show();
+
         //std::cout << "hover card index: " << hover_card_index << std::endl;
         //std::cout << "clicked card index: " << clicked_card_index << std::endl;
         EndDrawing();

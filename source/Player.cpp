@@ -61,24 +61,6 @@ bool Player::buy_card(Card card, int payment[6])
 
 bool Player::take_tokens(int tokens_to_take[5])
 {
-	int total_tokens_to_take = tokens_to_take[0] + tokens_to_take[1] + tokens_to_take[2] + tokens_to_take[3] + tokens_to_take[4];	
-	if (tokens[0] + tokens[1] + tokens[2] + tokens[3] + tokens[4] + total_tokens_to_take > 10) {
-		return false;
-	}
-	if (total_tokens_to_take > 3) {
-		return false;
-	}
-	if (total_tokens_to_take == 0) {
-		return false;
-	}
-	if (total_tokens_to_take == 3) {
-		for (int i = 0; i < 5; i++) {
-			if (tokens_to_take[i] > 1) {
-				return false;
-			}
-		}
-	}
-
 	for (int i = 0; i < 5; i++) {
 		if (tokens_to_take[i] > 0) {
 			tokens[i] += tokens_to_take[i];

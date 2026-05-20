@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include "Message.h"
+#include "Judge.h"
+
 void Game::initialize_cards() {
 	auto data = readCSV(ASSETS_PATH"Splendor_Cards.csv");
 
@@ -46,6 +48,7 @@ void Game::initialize_players(std::vector<std::string> names)
 bool Game::buy_card(Player& player, Card card, int card_index)
 {
 	int payment[6] = { 0, 0, 0, 0, 0, 0 };
+	std::cout << "i want to check the jusdge class" << Judge::can_the_player_buy_the_card(player, card).text << std::endl;
 	if (player.buy_card(card, payment)) {
 		int level = card.level;
 		visible_cards[level].erase(visible_cards[level].begin() + card_index);
@@ -62,25 +65,23 @@ bool Game::buy_card(Player& player, Card card, int card_index)
 }
 bool Game::give_tokens(Player& player, int tokens_to_give[5])
 {
+	JudgementResult can_bank_give = Judge::can_the_bank_give_tokens(tokens, tokens_to_give);
+	JudgementResult can_player_get = Judge::can_the_player_take_tokens(player, tokens_to_give);
+
+	if (!can_bank_give.result) {
+		std::cout << can_bank_give.text;
+		message_handler.set_message(TextType::Warning, can_bank_give.text);
+		return false;
+	}
+	if (!can_player_get.result) {
+		message_handler.set_message(TextType::Warning, can_player_get.text);
+		return false;
+	}
+
 	for (int i = 0; i < 5; i++) {
-		if (tokens_to_give[i] > tokens[i]) {
-			message_handler.set_message(TextType::Warning, "Not enough tokens of type " + std::to_string(i) + " in the game.");
-			std::cout << "Not enough tokens of type " << i << " in the game." << std::endl;
-			return false;
-		}
-		if (tokens_to_give[i] == 2 && tokens[i] < 4) {
-			message_handler.set_message(TextType::Warning, "Cannot take 2 tokens of type " + std::to_string(i) + " because there are less than 4 tokens of that type in the game.");
-			std::cout << "Cannot take 2 tokens of type " << i << " because there are less than 4 tokens of that type in the game." << std::endl;
-			return false;
-		}
+		tokens[i] -= tokens_to_give[i];
 	}
-	if (player.take_tokens(tokens_to_give)) {
-		for (int i = 0; i < 5; i++) {
-			tokens[i] -= tokens_to_give[i];
-		}
-		return true;
-	}
-	return false;
+	return true;
 }
 void Game::initialize_tokens() {
 	initial_token_number = players_num * 2 - (int)(players_num / 3);
