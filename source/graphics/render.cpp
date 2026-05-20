@@ -23,15 +23,18 @@ Color get_color_from_jem(auto type) {
 	    return GRAY;
 	}
 };
-int circle_r = 12;
-int start_size = 5;
-int space_size = 5;
-int font_size = 20;
-int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
-int rect_height = int (rect_width * 1.2);
 
 
-void render_players_state(std::vector<Player> players)
+
+//int circle_r = 12;
+//int start_size = 5;
+//int space_size = 5;
+//int font_size = 20;
+//int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
+//int rect_height = int (rect_width * 1.2);
+
+
+void Renderer::render_players_state(std::vector<Player> players)
 {
 	int x = 600;
 	int y = 150;
@@ -42,13 +45,13 @@ void render_players_state(std::vector<Player> players)
 	}
 }
 
-void render_turn(Player player)
+void Renderer::render_turn(Player player)
 {
 	std::string text = player.name + "'s Turn";
 	DrawText( (text).c_str() , 600, 10, 30, RED);
 }
 
-void render_tokens(int tokens[6], TokenBoxState token_boxes[25])
+void Renderer::render_tokens(int tokens[6], TokenBoxState token_boxes[25])
 {
 	int x = 20;
 	int y = 3 * (rect_height + int(0.4 * rect_width)) + 120;
@@ -80,7 +83,7 @@ void render_tokens(int tokens[6], TokenBoxState token_boxes[25])
 		temp_y = y;
 	}
 }
-void render_token_selector_btns(Rectangle seletors[6]) {
+void Renderer::render_token_selector_btns(Rectangle seletors[6]) {
 
 	int x = 20;
 	int y = 3 * (rect_height + int(0.4 * rect_width)) + 60;
@@ -92,7 +95,7 @@ void render_token_selector_btns(Rectangle seletors[6]) {
 		seletors[i] = token_rect;
 	}
 }
-int return_hovered_card_index(Rectangle card_boxes[12])
+int Renderer::return_hovered_card_index(Rectangle card_boxes[12])
 {
 	for (int i = 0; i < 12; i++) {
 		if (CheckCollisionPointRec(GetMousePosition(), card_boxes[i])) {
@@ -102,7 +105,7 @@ int return_hovered_card_index(Rectangle card_boxes[12])
 	}
 	return -1;
 }
-void return_clicked_card_index(Rectangle card_boxes[12], int &is_clicked)
+void Renderer::return_clicked_card_index(Rectangle card_boxes[12], int &is_clicked)
 {
 	for (int i = 0; i < 12; i++) {
 		if (CheckCollisionPointRec(GetMousePosition(), card_boxes[i]) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -110,7 +113,7 @@ void return_clicked_card_index(Rectangle card_boxes[12], int &is_clicked)
 		}
 	}
 }
-void return_clicked_token_index(TokenBoxState token_boxes[25], int &clicked)
+void Renderer::return_clicked_token_index(TokenBoxState token_boxes[25], int &clicked)
 {
 	for (int i = 0; i < 25; i++) {
 		if (CheckCollisionPointRec(GetMousePosition(), token_boxes[i].box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -128,19 +131,19 @@ void return_clicked_token_index(TokenBoxState token_boxes[25], int &clicked)
 	}
 }
 
-void render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visible_cards)
+void Renderer::render_buy_or_reserve_card(int index, std::vector<std::vector<Card>> visible_cards)
 {
 	int row = index / 4;
 	int col = index % 4;
 	std::string text = "Do you want to buy or reserve this card? (Y/N)";
 	DrawText((text).c_str(), 600, 50, 20, RED);
 }
-void render_gather_tokens()
+void Renderer::render_gather_tokens()
 {
 	std::string text = "Do you want to gather selected tokens? (G/N)";
 	DrawText((text).c_str(), 600, 100, 20, BLUE);
 }
-Rectangle render_card_at_coordinate(Card &card, int coord[2], bool selected) {
+Rectangle Renderer::render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 	int coord_x = coord[0];
 	int coord_y = coord[1];
 	Color color = get_color_from_jem(card.type);
@@ -195,7 +198,7 @@ Rectangle render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 	return card_rect;
 }
 
-void render_all_visible_cards(std::vector<std::vector<Card>> &visible_cards, Rectangle card_boxes[12], int hovered_index, int selected_index)
+void Renderer::render_all_visible_cards(std::vector<std::vector<Card>> &visible_cards, Rectangle card_boxes[12], int hovered_index, int selected_index)
 {
 	int x = 0;
 	int y = 0;

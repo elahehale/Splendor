@@ -68,7 +68,8 @@ int main(void)
 	int clicked_token_index = -1;
 	int prev_hover_card_index = -1;
 	int token_clicked = 0;
-	int tokens_to_gather[5] = { 0,0,0,0,0 };    
+	int tokens_to_gather[5] = { 0,0,0,0,0 };   
+	Renderer renderer = Renderer();
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -80,26 +81,26 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
-        render_turn(game.players[turn]);
-		game.message_handler.update();
-        hover_card_index = return_hovered_card_index(card_boxes);
+        renderer.render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
+        renderer.render_turn(game.players[turn]);
+        renderer.message_handler.update();
+        hover_card_index = renderer.return_hovered_card_index(card_boxes);
         if (hover_card_index != -1) {
             game.visible_cards[hover_card_index / 4][hover_card_index % 4].is_hover_animating = true;
         }
         if (prev_hover_card_index != -1 && prev_hover_card_index != hover_card_index) {
             game.visible_cards[prev_hover_card_index / 4][prev_hover_card_index % 4].is_hover_animating = false;
 		}
-        return_clicked_card_index(card_boxes, clicked_card_index);
-        render_token_selector_btns(token_selector_boxes);
-        return_clicked_token_index( token_boxes,  token_clicked);
-        render_tokens(game.tokens, token_boxes);
-		render_players_state(game.players);
+        renderer.return_clicked_card_index(card_boxes, clicked_card_index);
+        renderer.render_token_selector_btns(token_selector_boxes);
+        renderer.return_clicked_token_index( token_boxes,  token_clicked);
+        renderer.render_tokens(game.tokens, token_boxes);
+        renderer.render_players_state(game.players);
         if (token_clicked > 0) {
-            render_gather_tokens();
+            renderer.render_gather_tokens();
 		}
         if (clicked_card_index!= -1) {
-            render_buy_or_reserve_card(clicked_card_index, game.visible_cards);
+            renderer.render_buy_or_reserve_card(clicked_card_index, game.visible_cards);
         }
         if (IsKeyPressed(KEY_G)) {
             std::cout << "G is pressed!" << std::endl;
@@ -147,7 +148,7 @@ int main(void)
             }
         }
 		prev_hover_card_index = hover_card_index;
-		game.message_handler.show();
+        renderer.message_handler.show();
         //std::cout << "hover card index: " << hover_card_index << std::endl;
         //std::cout << "clicked card index: " << clicked_card_index << std::endl;
         EndDrawing();
