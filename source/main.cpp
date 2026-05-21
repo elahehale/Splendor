@@ -28,7 +28,7 @@ int main(void)
 
     SetTargetFPS(60);      // Set our game to run at 60 frames-per-second
 
-
+    Texture2D background = LoadTexture(ASSETS_PATH"wood.png");
 
 	Game game = Game(2, { "Alice", "Bob" });
 
@@ -45,7 +45,9 @@ int main(void)
 	int prev_hover_card_index = -1;
 	int token_clicked = 0;
 	int tokens_to_gather[5] = { 0,0,0,0,0 };   
-	Renderer renderer = Renderer();
+	Renderer renderer = Renderer(screenWidth, screenHeight);
+    Color customColor = DARKBROWN;
+
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -57,6 +59,8 @@ int main(void)
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
+        renderer.draw_background(background);
+
         ClearBackground(RAYWHITE);
         renderer.render_all_visible_cards(game.visible_cards, card_boxes, hover_card_index, clicked_card_index);
         renderer.render_turn(game.players[turn]);

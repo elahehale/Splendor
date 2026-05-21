@@ -34,6 +34,17 @@ Color get_color_from_jem(auto type) {
 //int rect_height = int (rect_width * 1.2);
 
 
+void Renderer::draw_background(Texture2D background)
+{
+	DrawTexture(background, 0, 0, WHITE);
+	Color shadow = DARKBROWN;
+	DrawRectangleGradientV(0, 0, screen_w, 150, Fade(shadow, 0.6f), Fade(shadow, 0.0f));
+	DrawRectangleGradientV(0, screen_h - 150, screen_w, 150, Fade(shadow, 0.0f), Fade(shadow, 0.6f));
+	DrawRectangleGradientH(0, 0, 200, screen_h, Fade(shadow, 0.6f), Fade(shadow, 0.0f));
+	DrawRectangleGradientH( screen_w- 200, 0, 200, screen_h, Fade(shadow, 0.0f), Fade(shadow, 0.6f));
+
+}
+
 void Renderer::render_players_state(std::vector<Player> players)
 {
 	int x = 600;

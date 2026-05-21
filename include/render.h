@@ -7,6 +7,8 @@
 class Renderer {
 public:
 	MessageHandler message_handler;
+	int screen_w;
+	int screen_h;
 	int circle_r = 12;
 	int start_size = 5;
 	int space_size = 5;
@@ -14,10 +16,12 @@ public:
 	int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
 	int rect_height = int(rect_width * 1.2);
 
-	Renderer() {
+	Renderer(int width, int height) {
+		screen_w = width;
+		screen_h = height;
 		message_handler = MessageHandler();
 	}
-
+	void draw_background(Texture2D background);
 	void render_players_state(std::vector<Player> players);
 	void render_turn(Player player);
 	void render_tokens(int tokens[6], TokenBoxState token_boxes[25]);
