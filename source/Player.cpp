@@ -29,34 +29,10 @@ std::string Player::get_player_state_text() const
 	
 }
 
-bool Player::buy_card(Card card, int payment[6])
+void Player::buy_card(Card card, int payment[6])
 {
-	std::string text;
-	if (card.cost[0] > tokens[0] + card_counts[0]) {
-		text += "Not enough White!";
-		return false;
-	}
-	if (card.cost[1] > tokens[1] + card_counts[1]) {
-		text += "Not enough Red!";
-		return false;
-	}
-	if (card.cost[2] > tokens[2] + card_counts[2]) {
-		text += "Not enough Green!";
-		return false;
-	}
-	if (card.cost[3] > tokens[3] + card_counts[3]) {
-		text += "Not enough Blue!";
-		return false;
-	}
-	if (card.cost[4] > tokens[4] + card_counts[4]) {
-		text += "Not enough Black!";
-		return false;
-	}
-	std::cout << "can buy the card!" << std::endl;
 	spend_to_buy(card, payment);
 	add_card(card);
-	text += "Card bought successfully!";
-	return true;
 }
 
 bool Player::take_tokens(int tokens_to_take[5])

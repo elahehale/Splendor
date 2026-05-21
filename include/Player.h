@@ -17,7 +17,7 @@ public:
 	std::vector<Card> cards;
 	std::vector<Card> reserved_cards;
 	std::string name;
-	bool buy_card(Card card, int payment[6]);
+	void buy_card(Card card, int payment[6]);
 	bool take_tokens(int tokens_to_take[5]);
 	operator std::string() const {
 		std::string text = get_player_state_text();

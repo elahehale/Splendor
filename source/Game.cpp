@@ -4,6 +4,7 @@
 #include <string>
 #include "Message.h"
 #include "Judge.h"
+#include <iostream>
 
 void Game::initialize_cards() {
 	auto data = readCSV(ASSETS_PATH"Splendor_Cards.csv");
@@ -48,8 +49,9 @@ void Game::initialize_players(std::vector<std::string> names)
 bool Game::buy_card(Player& player, Card card, int card_index)
 {
 	int payment[6] = { 0, 0, 0, 0, 0, 0 };
-	std::cout << "i want to check the jusdge class" << Judge::can_the_player_buy_the_card(player, card).text << std::endl;
-	if (player.buy_card(card, payment)) {
+	JudgementResult can_player_buy = Judge::can_the_player_buy_the_card(player, card);
+	if (can_player_buy.result) {
+		player.buy_card(card, payment);
 		int level = card.level;
 		visible_cards[level].erase(visible_cards[level].begin() + card_index);
 		if (cards[level].size() > 0) {
@@ -61,6 +63,7 @@ bool Game::buy_card(Player& player, Card card, int card_index)
 		}
 		return true;
 	}
+	message_handler.set_message(TextType::Warning, can_player_buy.text);
 	return false;
 }
 bool Game::give_tokens(Player& player, int tokens_to_give[5])
@@ -81,6 +84,7 @@ bool Game::give_tokens(Player& player, int tokens_to_give[5])
 	for (int i = 0; i < 5; i++) {
 		tokens[i] -= tokens_to_give[i];
 	}
+	player.take_tokens(tokens_to_give);
 	return true;
 }
 void Game::initialize_tokens() {

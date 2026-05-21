@@ -20,7 +20,7 @@ JudgementResult Judge::can_the_player_buy_the_card(const Player& player, const C
 	text.pop_back(); // remove last space
 	text.pop_back(); // remove last ,
 
-	if (text.length() == 18) {
+	if (text.length() == 17) {
 		text = "The card can be bought by the player.";
 		return JudgementResult(text, true);
 	}
@@ -70,7 +70,7 @@ JudgementResult Judge::can_the_player_take_tokens(const Player& player, const in
 
 	return JudgementResult(
 		"The player can take the tokens."
-		, false);
+		, true);
 };
 
 
