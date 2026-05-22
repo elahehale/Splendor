@@ -12,7 +12,7 @@ private:
 
 public:
 	int score;
-	int tokens[5];
+	int tokens[6];
 	int card_counts[5];
 	std::vector<Card> cards;
 	std::vector<Card> reserved_cards;
@@ -30,5 +30,7 @@ public:
 			this->tokens[i] = 0;
 			this->card_counts[i] = 0;
 		}
+		this->tokens[6] = 0;
+
 	}
 };

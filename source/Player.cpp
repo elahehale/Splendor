@@ -3,10 +3,14 @@
 void Player::spend_to_buy(Card card, int payment[6])
 {
 	for (int i = 0; i < 5; i++) {
-
 		payment[i] = std::max(0, card.cost[i] - card_counts[i]);
+		if (tokens[i] < payment[i]) {
+			payment[5] += payment[i] - tokens[i];
+			payment[i] = tokens[i];
+		}
 		tokens[i] -= payment[i];
 	}
+	tokens[5] -= payment[5];
 }
 
 void Player::add_card(Card card)
