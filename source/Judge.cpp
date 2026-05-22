@@ -1,31 +1,26 @@
 #include <Judge.h>
 
 JudgementResult Judge::can_the_player_buy_the_card(const Player& player, const Card& card) {
-	std::string text = "Not enough tokens (";
-	if (card.cost[0] > player.tokens[0] + player.card_counts[0]) {
-		text += "white, ";
-	}
-	if (card.cost[1] > player.tokens[1] + player.card_counts[1]) {
-		text += "red, ";
-	}
-	if (card.cost[2] > player.tokens[2] + player.card_counts[2]) {
-		text += "green, ";
-	}
-	if (card.cost[3] > player.tokens[3] + player.card_counts[3]) {
-		text += "blue, ";
-	}
-	if (card.cost[4] > player.tokens[4] + player.card_counts[4]) {
-		text += "black, ";
-	}
-	text.pop_back(); // remove last space
-	text.pop_back(); // remove last ,
+	std::string color_names[] = { "white", "red", "green", "blue", "black" };
+	std::string missing_colors = "";
+	int gold_needed = 0;
 
-	if (text.length() == 17) {
-		text = "The card can be bought by the player.";
-		return JudgementResult(text, true);
+	for (int i = 0; i < 5; i++) {
+		int shortage = card.cost[i] - player.tokens[i] - player.card_counts[i];
+		if (shortage > 0) {
+			gold_needed += shortage;
+			if (gold_needed > player.tokens[5]) {
+				missing_colors += color_names[i] + ", ";
+			}
+		}
 	}
-	text.append(")");
-	return JudgementResult(text, false);
+
+	if (missing_colors.empty()) {
+		return JudgementResult("The card can be bought by the player.", true);
+	}
+
+	missing_colors.erase(missing_colors.size() - 2);
+	return JudgementResult("Not enough tokens (" + missing_colors + ")", false);
 
 };
 

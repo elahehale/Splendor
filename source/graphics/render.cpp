@@ -26,14 +26,6 @@ Color get_color_from_jem(auto type) {
 
 
 
-//int circle_r = 12;
-//int start_size = 5;
-//int space_size = 5;
-//int font_size = 20;
-//int rect_width = 4 * circle_r * 2 + 2 * start_size + 4 * space_size;
-//int rect_height = int (rect_width * 1.2);
-
-
 void Renderer::draw_background(Texture2D background)
 {
 	DrawTexture(background, 0, 0, WHITE);
@@ -147,14 +139,12 @@ void Renderer::render_buy_or_reserve_card(int index, std::vector<std::vector<Car
 	int row = index / 4;
 	int col = index % 4;
 	std::string text = "Do you want to buy or reserve this card? (Y/N)";
-    //message_handler.set_message(TextType::Question, text);
-	//DrawText((text).c_str(), 600, 50, 20, RED);
+
 }
 void Renderer::render_gather_tokens()
 {
 	std::string text = "Do you want to gather selected tokens? (G/N)";
-	//message_handler.set_message(TextType::Question, text);
-	//DrawText((text).c_str(), 600, 100, 20, BLUE);
+
 }
 Rectangle Renderer::render_card_at_coordinate(Card &card, int coord[2], bool selected) {
 	int coord_x = coord[0];
@@ -163,17 +153,14 @@ Rectangle Renderer::render_card_at_coordinate(Card &card, int coord[2], bool sel
 
 
 	int text_width = 0;
-	//std::cout << "animating" << card.current_step << std::endl;
 
 	if(card.is_hover_animating){
 
-			//std::cout << "animating step" << card.current_step << std::endl;
 			coord_y -= int(card.current_step * 10 / card.steps);
 			if (card.current_step < card.steps) {
 
 				card.current_step = card.current_step + 1;
 			}
-			//std::cout << "animating step next" << card.current_step << std::endl;
 
 	}
 	else {
@@ -226,10 +213,6 @@ void Renderer::render_all_visible_cards(std::vector<std::vector<Card>> &visible_
 			is_selected = (index == selected_index);
 			x = rect_width * col + 20 * col + 10;
 			y = (int(0.4 * rect_width) + rect_height) * row + 20 * row + 10;
-			//if (is_hovered) {
-			//	x -= 5;
-			//	y -= 5;
-			//}
 			card_boxes[index] = render_card_at_coordinate(visible_cards[row][col], new int[2] { x,y }, is_selected);
 		} 
 	}
